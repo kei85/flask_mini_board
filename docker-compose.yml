@@ -1,0 +1,38 @@
+version: '3'
+
+services: 
+    flask: 
+        build: ./docker/python
+        container_name: "flask_board"
+        tty: true
+        volumes: 
+            - ./python:/src
+        working_dir: "/src"
+        ports: 
+            - 8080:5000
+
+    mysql:
+        image: mysql:5.7
+        container_name: "sql_board"
+        tty: true
+        volumes:
+            - ./db/data:/var/lib/mysql
+            - ./db/config/my.cnf:/etc/mysql/conf.d/my.cnf
+        environment:
+            - MYSQL_ROOT_PASSWORD=root
+            - MYSQL_DATABASE=board
+            - MYSQL_USER=board
+            - MYSQL_PASSWORD=abc123
+            - TZ=Asia/Tokyo
+        ports:
+            - 3306:3306
+
+    node:
+        build: ./docker/vue
+        container_name: "node_board"
+        tty: true
+        volumes: 
+            - ./vue:/src
+        working_dir: "/vue"
+        ports: 
+            - 8000:3000
