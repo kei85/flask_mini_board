@@ -11,6 +11,25 @@
 </template>
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  methods: {
+    post_user() {
+      this.$axios.post('api/users/login', {
+        mail: this.mail,
+        pwd: this.password
+      })
+      .then(res => {
+        if(res.data.state) {
+          this.$router.push({ name: 'myindex', params: { id: res.data.id, name: res.data.name } })
+          return 0
+        }
+      })
+      .catch(err => {
+        if(err.response){
+          console.log(err)
+        }
+      });
+    }
+  }
 }
 </script>

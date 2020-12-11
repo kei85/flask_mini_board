@@ -49,3 +49,7 @@ def update(data, id):
 def find_user(id):
     usr = db.session.query(User).filter(User.id == id).first()
     return usr
+
+def find_mail(address):
+    usr = db.session.query(User).filter(User.mail == address).first()
+    return usr
