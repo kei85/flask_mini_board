@@ -11,4 +11,4 @@ ENV TZ JST-9
 ENV TERM xterm
 
 RUN apt-get install -y vim less
-RUN npm install -g vue-cli
+RUN npm install -g @vue/cli

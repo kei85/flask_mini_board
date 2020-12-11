@@ -24,17 +24,19 @@ def store_user(id):
     users.update(request.json, id)
     return 'update!'
 
-@bp.route('boards/index', methods=['GET'])
+@bp.route('boards/index/<int:uid>', methods=['GET'])
 def index_board():
-    data = boards.find_all()
-    return data
+    brds = boards.find_all()
+    brds_schema = boards.BoardSchema(many=True)
+    return jsonify({"boards": brds_schema.dump(brds)})
 
-@bp.route('boards/home', methods=['GET'])
-def index_person():
-    data = boards.find_one(id)
-    return data
+@bp.route('boards/home/<int:uid>', methods=['GET'])
+def index_person(uid):
+    brds = boards.find_one(uid)
+    brds_schema = boards.BoardSchema(many=True)
+    return jsonify({"boards": brds_schema.dump(brds)})
 
-@bp.route('boards/add', methods=['POST'])
-def add_board():
-    boards.create(request.json, id)
+@bp.route('boards/add/<int:uid>', methods=['POST'])
+def add_board(uid):
+    boards.create(request.json, uid)
     return 'send!'
