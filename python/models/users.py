@@ -48,6 +48,4 @@ def update(data, id):
 
 def find_user(id):
     usr = db.session.query(User).filter(User.id == id).first()
-    usr_li = list()
-    usr_li.append(usr)
-    return usr_li
+    return usr

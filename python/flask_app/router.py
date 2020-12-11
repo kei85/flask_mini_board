@@ -16,7 +16,7 @@ def add_user():
 @bp.route('users/edit/<int:id>', methods=['GET'])
 def edit_user(id):
     usr = users.find_user(id)
-    usr_schema = users.UserSchema(many=True)
+    usr_schema = users.UserSchema()
     return jsonify({"user": usr_schema.dump(usr)})
 
 @bp.route('users/edit/<int:id>', methods=['POST'])
