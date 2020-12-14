@@ -1,6 +1,6 @@
 <template>
     <h1>
-        {{header_msg}}
+        <router-link :to="{name: 'home'}">{{header_msg}}</router-link>
     </h1>
 </template>
 <script lang="ts">

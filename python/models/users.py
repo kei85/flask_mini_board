@@ -53,3 +53,7 @@ def find_user(id):
 def find_mail(address):
     usr = db.session.query(User).filter(User.mail == address).first()
     return usr
+
+def find_AllUser():
+    usr = User.query.all()
+    return usr

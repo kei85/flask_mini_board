@@ -1,27 +1,26 @@
 <template>
   <div>
-    <p>
+    <form @submit.prevent="save_store">
       mail: <input type="text" v-model="mail">
-    </p>
-    <p>
       password: <input type="password" v-model="password">
-    </p>
-    <input type="button" @click="post_user" value="ログイン">
+      <input type="submit" value="ログイン">
+    </form>
   </div>
 </template>
 <script>
 export default {
   name: 'Login',
   methods: {
-    post_user() {
-      this.$axios.post('api/users/login', {
+    post_user: async function() {
+      let data;
+      await this.$axios.post('api/users/login', {
         mail: this.mail,
         pwd: this.password
       })
       .then(res => {
         if(res.data.state) {
-          this.$router.push({ name: 'myindex', params: { id: res.data.id, name: res.data.name } })
-          return 0
+          data = res.data
+          return data
         }
       })
       .catch(err => {
@@ -29,6 +28,12 @@ export default {
           console.log(err)
         }
       });
+      return data;
+    },
+    save_store: async function() {
+      let data = await this.post_user()
+      await this.$store.commit('change_user', data)
+      this.$router.push({ name: 'myindex', params: { id: data.user.id } })
     }
   }
 }

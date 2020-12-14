@@ -24,13 +24,22 @@ def store_user(id):
     users.update(request.json, id)
     return 'update!'
 
-@bp.route('/api/boards/index/<int:uid>', methods=['GET'])
+@bp.route('/api/boards/index', methods=['GET'])
 def index_board():
     brds = boards.find_all()
     brds_schema = boards.BoardSchema(many=True)
-    return jsonify({"boards": brds_schema.dump(brds)})
+    usrs = users.find_AllUser()
 
-@bp.route('/api/boards/home/<int:uid>', methods=['GET'])
+    brds_dict = brds_schema.dump(brds)
+
+    for bd in brds_dict:
+        for u in usrs:
+            if bd['uid'] == u.id:
+                bd['name'] = u.name
+            
+    return jsonify({"boards": brds_dict})
+
+@bp.route('/api/boards/myindex/<int:uid>', methods=['GET'])
 def index_person(uid):
     brds = boards.find_one(uid)
     brds_schema = boards.BoardSchema(many=True)
@@ -45,6 +54,7 @@ def add_board(uid):
 def login():
     data = request.json
     usr = users.find_mail(data['mail'])
+    usr_schema = users.UserSchema()
     if usr.pwd == data['pwd']:
-        return jsonify({'id': usr.id, 'name': usr.name, 'state': True})
-    return 404
+        return jsonify({"user": usr_schema.dump(usr), "state": True})
+    return {"state": False}

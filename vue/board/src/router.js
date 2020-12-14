@@ -5,6 +5,7 @@ import Login from './components/Login'
 import Regist from './components/Regist'
 import Home from './components/Home'
 import MyIndex from './components/MyIndex'
+import BoardAdd from './components/BoardAdd'
 
 Vue.use(Router)
 
@@ -27,9 +28,14 @@ export default new Router({
       component: Home
     },
     {
-      path: '/myindex/:id',
+      path: '/index/:id',
       name: 'myindex',
       component: MyIndex
+    },
+    {
+      path: '/add/:id',
+      name: 'add',
+      component: BoardAdd
     }
   ]
 })
