@@ -26,12 +26,7 @@ export default {
       })
       .then(res => {
         data = res.data
-        if(res.data.state) {
-          return data
-        } else {
-          data = 0;
-          return data;
-        }
+        return data
       })
       .catch(err => {
         if(err.response){
@@ -42,13 +37,13 @@ export default {
     },
     save_store: async function() {
       let data = await this.post_user()
-      if (data == 0) {
-        this.err_msg = 'user not found!';
-        return 0;
+      console.log(data)
+      if (data.state) {
+        await this.$store.commit('change_user', data);
+        this.$router.push({ name: 'myindex', params: { id: data.user.id} });
+      } else {
+        this.err_msg = 'user not find!';
       }
-
-      await this.$store.commit('change_user', data)
-      this.$router.push({ name: 'myindex', params: { id: data.user.id} })
     }
   }
 }

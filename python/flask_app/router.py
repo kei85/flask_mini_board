@@ -55,6 +55,8 @@ def login():
     data = request.json
     usr = users.find_mail(data['mail'])
     usr_schema = users.UserSchema()
+    if usr is None:
+        return {"state": False}
     if usr.pwd == data['pwd']:
         return jsonify({"user": usr_schema.dump(usr), "state": True})
     return {"state": False}
