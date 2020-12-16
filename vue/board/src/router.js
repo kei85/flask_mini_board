@@ -7,35 +7,58 @@ import Home from './components/Home'
 import MyIndex from './components/MyIndex'
 import BoardAdd from './components/BoardAdd'
 
+import store from './store'
+
 Vue.use(Router)
 
-export default new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/login',
-      name: 'login',
-      component: Login
-    },
-    {
-      path: '/regist',
-      name: 'regist',
-      component: Regist
-    },
-    {
-      path: '/',
-      name: 'home',
-      component: Home
-    },
-    {
-      path: '/index/:id',
-      name: 'myindex',
-      component: MyIndex
-    },
-    {
-      path: '/add/:id',
-      name: 'add',
-      component: BoardAdd
+const routes = [
+  {
+    path: '/login',
+    name: 'login',
+    component: Login,
+    meta: {
+      isPublic: true
     }
-  ]
-})
+  },
+  {
+    path: '/regist',
+    name: 'regist',
+    component: Regist,
+    meta: {
+      isPublic: true
+    }
+  },
+  {
+    path: '/',
+    name: 'home',
+    component: Home,
+    meta: {
+      isPublic: true
+    }
+  },
+  {
+    path: '/index/:id',
+    name: 'myindex',
+    component: MyIndex
+  },
+  {
+    path: '/add/:id',
+    name: 'add',
+    component: BoardAdd
+  }
+]
+
+const router = new Router({
+  mode: 'history',
+  routes
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(page => page.meta.isPublic || store.state.login_user.state)) {
+    next();
+  } else {
+    next('/login');
+  }
+});
+
+export default router;

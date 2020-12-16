@@ -18,7 +18,7 @@ export default {
       .then(() => {
         this.$router.push({ 
           name: 'myindex',
-          params: { id: this.$store.state.login_user.user.id }
+          params: { id: this.$store.state.login_user.user.id}
         });
       })
       .catch(err => {

@@ -22,7 +22,7 @@ export default {
         age: this.age
       })
       .then(() => {
-        this.$router.push({name: 'login'})
+        this.$router.push({name: 'login', params: {ok: '登録が完了しました'}});
       })
       .catch(err => {
         console.log(err)

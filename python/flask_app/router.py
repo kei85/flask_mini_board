@@ -11,7 +11,7 @@ def Hello():
 @bp.route('/api/users/add', methods=['POST'])
 def add_user():
     users.create(request.json)
-    return 'regist!'
+    return request.json
 
 @bp.route('/api/users/edit/<int:id>', methods=['GET'])
 def edit_user(id):

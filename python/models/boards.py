@@ -11,7 +11,7 @@ class Board(db.Model):
     updated_at = db.Column(db.DateTime, nullable=False, default=datetime.now, onupdate=datetime.now)
 
 def find_all():
-    boards = Board.query.all()
+    boards = Board.query.order_by(Board.created_at.desc()).all()
     return boards
 
 def find_one(id):
